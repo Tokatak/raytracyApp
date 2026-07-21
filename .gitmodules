@@ -1,0 +1,6 @@
+[submodule "tracer"]
+	path = tracer
+	url = git@github.com:Tokatak/raytracy.git
+[submodule "win"]
+	path = win
+	url = https://github.com/Tokatak/winAppTemplate
