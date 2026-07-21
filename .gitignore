@@ -1,0 +1,9 @@
+*.bat
+*.vs
+*.exe
+*.ilk
+*.obj
+*.pdb
+*.ppm
+*~
+todo.org
