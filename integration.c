@@ -1,8 +1,12 @@
 #include "win/main.h"
 #include "tracer/tracer.h"
 
+static int frame =0;
+
 void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
 
+  frame ++;
+  
   Sphere spheres[] = {
       // position
     
@@ -48,6 +52,8 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
 
   V3 direction = {0}, color = {0}, origin = {0};
   int recursion_depth = 3;
+
+  origin.x = cos(frame*0.1f);
 
 
   fillRegionWin( origin, region, viewportSize, projectionPlane, buffer,
