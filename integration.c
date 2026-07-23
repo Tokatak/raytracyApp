@@ -1,6 +1,8 @@
 #include "win/main.h"
 #include "tracer/tracer.h"
 
+#define PI 3.14159265358979323846
+
 static int frame =0;
 
 void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
@@ -8,12 +10,20 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
   frame ++;
   
   Sphere spheres[] = {
-      // position
-    
+      // position    
       {{0, -1, 3}, 1, {255, 0, 0}, 500, 0.2},
       {{2, 0, 4}, 1, {0, 0, 255}, 500, 0.3},
       {{-2, 0, 4}, 1, {0, 255, 0}, 10, 0.4},
+    
       {{0, -5001, 0}, 5000, {255, 255, 0}, 1000, 0.5},
+
+      // todo remove debug spheres
+      {{0, 0, 10}, 1, {255, 0,0}, 500, 0.2},
+      {{0, 0, -10}, 1, {255,0,0}, 500, 0.2},      
+      {{10, 0, 0}, 1, {0, 255, 0}, 500, 0.2},
+      {{-10, 0, 0}, 1, {0, 255, 0}, 500, 0.2},     
+      {{0, 10, 0}, 1, {0, 0, 255}, 500, 0.2},
+      {{0, -10, 0}, 1, {0, 0, 255}, 500, 0.2},
   };
 
   // todo: fix no ligth exception
@@ -53,10 +63,45 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
   V3 direction = {0}, color = {0}, origin = {0};
   int recursion_depth = 3;
 
-  origin.x = cos(frame*0.1f);
 
+  float anglePerFrame = 360 / (12*30);
+  /* // starting from */
+  /* // x-         x+ */
+  /* // . . . . . .z+ */
+  /* // . . . . . . */
+  /* // . . 0 . . . */
+  /* // . . . . . . */
+  /* // . . * . . .z- */
 
-  fillRegionWin( origin, region, viewportSize, projectionPlane, buffer,
+  float offsetX = 0;
+  float offsetZ = 0;
+  float radius = 8; // Distance from origin
+
+  float start = -PI;
+  float radians = start + frame * anglePerFrame * (PI / 180.0);
+  
+  origin.x = offsetX + sin(radians) * radius;
+  origin.z = offsetZ + cos(radians) * radius;
+  origin.y = 0; 
+
+  // Look at the origin (0,0,0)
+  V3 lookAtPoint = {0, 0, 0};
+  
+  V3 cameraDirection = {0};
+  cameraDirection.x = lookAtPoint.x - origin.x;
+  cameraDirection.y = lookAtPoint.y - origin.y;
+  cameraDirection.z = lookAtPoint.z - origin.z;
+  
+  float dirLen = sqrtf(cameraDirection.x*cameraDirection.x + 
+                       cameraDirection.y*cameraDirection.y + 
+                       cameraDirection.z*cameraDirection.z);
+  if (dirLen > 0) {
+    cameraDirection.x /= dirLen;
+    cameraDirection.y /= dirLen;
+    cameraDirection.z /= dirLen;
+  }
+  
+  fillRegionWin( origin, cameraDirection, region, viewportSize, projectionPlane, buffer,
 	      1, INFINITY, recursion_depth,
 	      spheres, ARRAY_SIZE(spheres), lights, ARRAY_SIZE(lights));
 }
