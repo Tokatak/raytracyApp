@@ -26,12 +26,13 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
       {{0, -10, 0}, 1, {0, 0, 255}, 500, 0.2},
   };
 
-  // todo: fix no ligth exception
-  Light lights[] = {
-    {LIGHT_AMBIENT, 0.2, {0, 0, 0}},
-    {LIGHT_POINT, 0.6, {2, 1, 0}},
-    {LIGHT_DIRECTIONAL, 0.2, {1, 4, 4}},
-  };
+  // note: cant be 0 since is expanded by ARRAY_SIZE macro
+  // and having 0 causes internal compilation error ( msvc )
+  Light lights[3];
+  lights[0] =(Light) {LIGHT_AMBIENT, 0.2, {0, 0, 0}};
+  lights[1] =(Light) {LIGHT_POINT, 0.6, {2, 1, 0}};
+  lights[2] =(Light) {LIGHT_DIRECTIONAL, 0.2, {1, 4, 4}};
+  
 
   V3 viewportSize = {1.0, 1.0, 0.0};
   float projectionPlane = 1.0;
