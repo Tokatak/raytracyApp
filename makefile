@@ -1,3 +1,6 @@
+gcc:
+	gcc -Wall -Wextra -Wpedantic -DRENDERER_EXTERNAL -g -o main ./win/main.c ./integration.c -lgdi32 -lwinmm
+
 gccO:
 	gcc -Wall -Wextra -Wpedantic -DRENDERER_EXTERNAL -g -O3 -o main ./win/main.c ./integration.c -lgdi32 -lwinmm
 
