@@ -1,3 +1,4 @@
+
 #include "win/main.h"
 #include "tracer/tracer.h"
 
@@ -102,7 +103,8 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
     cameraDirection.z /= dirLen;
   }
   
-  fillRegionWin( origin, cameraDirection, region, viewportSize, projectionPlane, buffer,
-	      1, INFINITY, recursion_depth,
-	      spheres, ARRAY_SIZE(spheres), lights, ARRAY_SIZE(lights));
+  fillRegion( origin, cameraDirection, region, viewportSize, projectionPlane,
+		 buffer, PIXEL_LAYOUT_BGRA,
+		 1, INFINITY, recursion_depth,
+		 spheres, ARRAY_SIZE(spheres), lights, ARRAY_SIZE(lights));
 }
