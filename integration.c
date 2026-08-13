@@ -102,9 +102,15 @@ void  Renderer_UpdateAndRender(OffscreenBuffer* offscreenBuffer){
     cameraDirection.y /= dirLen;
     cameraDirection.z /= dirLen;
   }
+
+  Camera camera = {0};
+  camera.position = origin;
+  camera.direction = cameraDirection;
+  camera.viewportSize = viewportSize;
+  camera.projectionPlane = projectionPlane;
   
-  fillRegion( origin, cameraDirection, region, viewportSize, projectionPlane,
-		 buffer, PIXEL_LAYOUT_BGRA,
-		 1, INFINITY, recursion_depth,
-		 spheres, ARRAY_SIZE(spheres), lights, ARRAY_SIZE(lights));
+  fillRegion( region, camera,
+	      buffer, PIXEL_LAYOUT_BGRA,
+	      1, INFINITY, recursion_depth,
+	      spheres, ARRAY_SIZE(spheres), lights, ARRAY_SIZE(lights));
 }
